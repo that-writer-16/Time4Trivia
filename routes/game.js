@@ -7,4 +7,10 @@ router.get('/play', function(req, res, next) {
   res.render('play', {user: req.session.user});
 });
 
+router.get('/questions', function(req, res, next) {
+  // TODO: Implement Adding questions to DB
+  
+  res.render('questions', {user: req.session.user});
+});
+
 module.exports = router;

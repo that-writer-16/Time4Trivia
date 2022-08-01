@@ -1,0 +1,21 @@
+extends layout
+
+block content
+    form(action='profile', method='post')
+        label Question:
+        <br>
+        textarea(name="Question", cols="20", rows="10") 
+        <br>
+        label Correct Answer:
+        input(type='text', name='correctAnswer')
+        <br>
+        label Incorrect Answer:
+        input(type='text', name='incorrectAnswer')
+        label Incorrect Answer:
+        input(type='text', name='incorrectAnswer1')
+        label Incorrect Answer:
+        input(type='text', name='incorrectAnswer2')
+        label Incorrect Answer:
+        input(type='text', name='incorrectAnswer3')
+        <br>
+        input(type='submit', value='Submit Question')
