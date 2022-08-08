@@ -1,1 +1,0 @@
-// mongoDAL is responsible to for all interactions with mongodb for the trivia game
