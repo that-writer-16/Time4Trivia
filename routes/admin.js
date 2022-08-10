@@ -16,6 +16,12 @@ router.get('/users/:role', async function (req, res, next) {
   }
 });
 
+router.post('/users/:role', async function(req, res, next){
+  let accountstatus = req.body.accountstatus;
+  console.log(accountstatus);
+
+})
+
 router.get('/delete/:userId', async function (req, res, next) {
   let userId = req.params.userId;
 
