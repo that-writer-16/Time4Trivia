@@ -3,7 +3,7 @@ const router = express.Router();
 
 const userController = require('../controllers/userController');
 
-// All Admin Routes should only be accessble to logged in Admins!
+// All Admin Routes should only be accessible to logged in Admins!
 
 router.get('/users/:role', async function (req, res, next) {
   let role = req.params.role;

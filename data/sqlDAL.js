@@ -2,12 +2,13 @@
 const User = require('../models/user').User;
 const Result = require('../models/result').Result;
 const STATUS_CODES = require('../models/statusCodes').STATUS_CODES;
+const Question = require('../models/question').Question;
 
 const mysql = require('mysql2/promise');
 const sqlConfig = {
     host: 'localhost',
-    user: 'dev',
-    password: 'P@ssw0rd',
+    user: 'kia',
+    password: 'Pro@430',
     database: 'Time4Trivia',
     multipleStatements: true
 };
@@ -286,4 +287,69 @@ exports.updateUserPassword = async function (userId, hashedPassword) {
         result.message = err.message;
         return result;
     }
+}
+
+exports.getAllQuestions = async function () {
+    questions = [];
+    const con = await mysql.createConnection(sqlConfig);
+
+    try{
+        let sql = `select * from Questions;`;
+        const [questionResults, ] = await con.query(sql);
+
+        for(key in questionResults){
+            let q = user[key];
+            let sql = `select Question, CorrectAnswer, IncorrectAnswer0, IncorrectAnswer1, IncorrectAnswer2, ApprovalStatus from Questions;`;
+            const [questionResults, ] = await con.query(sql);
+
+            questions.push(new Question(q.Question, q.CorrectAnswer, q.IncorrectAnswer0, q.IncorrectAnswer1, q.IncorrectAnswer2, q.ApprovalStatus))
+        }
+    } catch (err){
+        console.log(err);
+    }finally {
+        con.end();
+    }
+    return questions;
+}
+
+exports.getApprovedQuestions = async function () {
+    questions = [];
+    const con = await mysql.createConnection(sqlConfig);
+
+    try{
+        let sql = `select * from Questions where ApprovalStatus = 1;`;
+        const [questionResults, ] = await con.query(sql);
+        console.log(questionResults);
+        for(key in questionResults){
+            let q = questionResults[key];
+            questions.push(new Question(q.Question, q.CorrectAnswer, q.IncorrectAnswer0, q.IncorrectAnswer1, q.IncorrectAnswer2))
+        } 
+    } catch (err){
+        console.log(err);
+    }finally {
+        con.end();
+    }
+    return questions;
+}
+
+exports.addQuestion = async function (question, correctAnswer, incorrectAnswer0, incorrectAnswer1, incorrectAnswer2) {
+    // Todo Finish
+    let result = new Result();
+    const con = await mysql.createConnection(sqlConfig);
+    
+    try{
+        let sql = `Insert into Questions (Question, CorrectAnswer, IncorrectAnswer0, IncorrectAnswer1, IncorrectAnswer2, ApprovalStatus) values ('${question}', '${correctAnswer}', '${incorrectAnswer0}', '${incorrectAnswer1}', '${incorrectAnswer2}', 0)`
+        await con.query(sql);
+        result.status = STATUS_CODES.success;
+        result.message = 'Question added.';
+        result.data = '';
+    }catch (err){
+        console.log(err);
+
+        result.status = STATUS_CODES.failure;
+        result.message = err.message;
+    }finally{
+        con.end();
+    }
+    return result;
 }

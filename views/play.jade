@@ -3,11 +3,12 @@ extends layout
 block content
     h1 Play Time 4 Trivia!
     button Go
-
-    h3 What year was the game Team Fortress 2 released?
-    p 2007
-    p 2009
-    p 2005
-    p 2010
+    each q in questions
+        h3 #{q.question}
+        p #{q.correctAnswer}
+        p #{q.incorrectAnswer0}
+        p #{q.incorrectAnswer1}
+        p #{q.incorrectAnswer2}
     
     input(type='submit', value='Submit Question')
+    h4(id='correctOrIncorrect')

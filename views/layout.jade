@@ -10,10 +10,11 @@ html
       if user
         if user.isAdmin
           a(class='', href='/a/users/user') Users
+          a(class='', href='/g/approval') Approve Questions
         a(class='active', href='/g/play') Play
         a(class='', href='/u/profile') Profile
+        a(class='', href='/g/add') Add Questions
         a(class='', href='/u/logout') Logout #{user.username}
-                a(class='', href='/g/questions') Add Questions
       else
         a(class='', href='/u/login') Login
     block content
