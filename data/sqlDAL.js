@@ -6,7 +6,7 @@ const Question = require('../models/question').Question;
 
 const mysql = require('mysql2/promise');
 const sqlConfig = {
-    host: 'localhost',
+    host: '10.10.14.24',
     user: 'kia',
     password: 'Pro@430',
     database: 'Time4Trivia',
@@ -115,7 +115,7 @@ exports.getUserById = async function (userId) {
             let u = userResults[key];
 
             let sql = `select UserId, Role from UserRoles ur join Roles r on ur.roleid = r.roleid where ur.UserId = ${u.UserId}`;
-            console.log(sql);
+            // console.log(sql);
             const [roleResults, ] = await con.query(sql);
 
             let roles = [];
@@ -172,7 +172,7 @@ exports.getUserByUsername = async function (username) {
 
     try {
         let sql = `select * from Users where Username = '${username}'`;
-        console.log(sql);
+        // console.log(sql);
         
         const [userResults, ] = await con.query(sql);
 
@@ -180,7 +180,7 @@ exports.getUserByUsername = async function (username) {
             let u = userResults[key];
 
             let sql = `select UserId, Role from UserRoles ur join Roles r on ur.roleid = r.roleid where ur.UserId = ${u.UserId}`;
-            console.log(sql);
+            // console.log(sql);
             const [roleResults, ] = await con.query(sql);
 
             let roles = [];
@@ -319,7 +319,8 @@ exports.getApprovedQuestions = async function () {
     try{
         let sql = `select * from Questions where ApprovalStatus = 1;`;
         const [questionResults, ] = await con.query(sql);
-        console.log(questionResults);
+        // console.log('questionResults');
+        // console.log(questionResults);
         for(key in questionResults){
             let q = questionResults[key];
             questions.push(new Question(q.Question, q.CorrectAnswer, q.IncorrectAnswer0, q.IncorrectAnswer1, q.IncorrectAnswer2))

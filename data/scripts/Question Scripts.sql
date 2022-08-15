@@ -12,6 +12,10 @@ create table if not exists Questions(
 );
 
 Insert into Questions (QuestionId, Question, CorrectAnswer, IncorrectAnswer0, IncorrectAnswer1, IncorrectAnswer2, ApprovalStatus) values 
-(4, 'What year was the game Team Fortress 2 released?', '2007', '2009', '2005', '2010', 1)
+('What year was the game Team Fortress 2 released?', '2007', '2009', '2005', '2010', 1)
+
+Insert into Questions (Question, CorrectAnswer, IncorrectAnswer0, IncorrectAnswer1, IncorrectAnswer2, ApprovalStatus) values 
+('In which series of games do you collect souls to empower you and buy weaponry and armor with?', 'Souls', 'Final Fantasy', 'Monster Hunter', 'The Legend of Zelda', 1)
+
 
 select * from questions

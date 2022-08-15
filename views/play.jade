@@ -2,13 +2,12 @@ extends layout
 
 block content
     h1 Play Time 4 Trivia!
-    button Go
-    each q in questions
-        h3 #{q.question}
-        p #{q.correctAnswer}
-        p #{q.incorrectAnswer0}
-        p #{q.incorrectAnswer1}
-        p #{q.incorrectAnswer2}
-    
-    input(type='submit', value='Submit Question')
-    h4(id='correctOrIncorrect')
+    //- button Go
+    form(action='/g/play', method='post')
+        h3 #{questions.question}
+        p #{questions.correctAnswer}
+        p #{questions.incorrectAnswer0}
+        p #{questions.incorrectAnswer1}
+        p #{questions.incorrectAnswer2}
+        input(type='submit', value='Submit Question')
+    //- h4(id='correctOrIncorrect')
