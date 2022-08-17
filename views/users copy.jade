@@ -1,20 +1,15 @@
 extends layout
 
 block content
-  form(action='post')
+  form(action='admin' method="post")
     h1 Users
     each user in users 
       div(class='userBox')
-        h3 Username: #{user.username}
-          label Account Status: 
-            select(type="text" name="accountStatus", id='')
-              each val in ["enabled","disabled"]
-                  option=val
-          label Delete User: 
-          input(type='checkbox' name='accountDelete' checked=false)
-          
+        h2 Username: #{user.username}
+          label Delete User:
+          input(type='submit', value='delete')
           h3 Roles
+          h2 Account status: #{user.account_locked}
           ul
             each role in user.roles 
               li= role
-          input(type='submit')
