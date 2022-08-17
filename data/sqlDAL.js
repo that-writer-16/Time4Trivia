@@ -6,7 +6,7 @@ const Question = require('../models/question').Question;
 
 const mysql = require('mysql2/promise');
 const sqlConfig = {
-    host: '10.10.14.24',
+    host: 'localhost',
     user: 'kia',
     password: 'Pro@430',
     database: 'Time4Trivia',
@@ -298,7 +298,7 @@ exports.getAllQuestions = async function () {
         const [questionResults, ] = await con.query(sql);
 
         for(key in questionResults){
-            let q = user[key];
+            let q = questions[key];
             let sql = `select Question, CorrectAnswer, IncorrectAnswer0, IncorrectAnswer1, IncorrectAnswer2, ApprovalStatus from Questions;`;
             const [questionResults, ] = await con.query(sql);
 

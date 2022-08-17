@@ -31,3 +31,14 @@ create table if not exists UserRoles(
     foreign key (UserId) references Users(UserId),
     foreign key (RoleId) references Roles(RoleId)
 );
+
+create table if not exists Questions(
+	QuestionId int NOT NULL AUTO_INCREMENT,
+	Question varchar(100) NOT NULL,
+	CorrectAnswer varchar(100) NOT NULL,
+    IncorrectAnswer0 varchar(100) NOT NULL,
+	IncorrectAnswer1 varchar(100) NOT NULL,
+    IncorrectAnswer2 varchar(100) NOT NULL,
+	ApprovalStatus BIT(1) NOT NULL,
+    PRIMARY KEY (QuestionId)
+);

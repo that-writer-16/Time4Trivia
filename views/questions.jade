@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    h1 Play Time 4 Trivia!
+    //- button Go
+    form(action='/g/questions', method='post')
+        h3 #{questions.question}
+        p(value="answers[3]") #{answers[3]}
+        p(value="answers[0]") #{answers[0]}
+        p(value="answers[1]") #{answers[1]}
+        p(value="answers[2]") #{answers[2]}
+        input(type='button', value='Submit Question')
+    //- h4(id='correctOrIncorrect')
