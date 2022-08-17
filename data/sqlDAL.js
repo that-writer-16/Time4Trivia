@@ -7,8 +7,8 @@ const Question = require('../models/question').Question;
 const mysql = require('mysql2/promise');
 const sqlConfig = {
     host: 'localhost',
-    user: 'kia',
-    password: 'Pro@430',
+    user: 'root',
+    password: 'appleBS1998!',
     database: 'Time4Trivia',
     multipleStatements: true
 };
@@ -44,7 +44,7 @@ exports.getAllUsers = async function () {
                 let role = roleResults[key];
                 roles.push(role.Role);
             }
-            users.push(new User(u.UserId, u.Username, u.Email, u.Password, roles));
+            users.push(new User(u.UserId, u.Username, u.Email, u.Password, roles, u.account_locked));
         }
     } catch (err) {
         console.log(err);
@@ -86,7 +86,7 @@ exports.getUsersByRole = async function (role) {
                 let role = roleResults[key];
                 roles.push(role.Role);
             }
-            users.push(new User(u.UserId, u.Username, u.Email, u.Password, roles));
+            users.push(new User(u.UserId, u.Username, u.Email, u.Password, roles, u.account_locked));
         }
     } catch (err) {
         console.log(err);
@@ -123,7 +123,7 @@ exports.getUserById = async function (userId) {
                 let role = roleResults[key];
                 roles.push(role.Role);
             }
-            user = new User(u.UserId, u.Username, u.Email, u.Password, roles);
+            user = new User(u.UserId, u.Username, u.Email, u.Password, roles, u.account_locked);
         }
     } catch (err) {
         console.log(err);
@@ -188,7 +188,7 @@ exports.getUserByUsername = async function (username) {
                 let role = roleResults[key];
                 roles.push(role.Role);
             }
-            user = new User(u.UserId, u.Username, u.Email, u.Password, roles);
+            user = new User(u.UserId, u.Username, u.Email, u.Password, roles, u.account_locked);
         }
     } catch (err) {
         console.log(err);
