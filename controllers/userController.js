@@ -33,6 +33,26 @@ exports.createUser = async function (username, email, password) {
 /**
  * 
  * @param {*} userId 
+ * @param {*} accountStatus 
+ * @param {*} accountDelete
+ * @returns The result of the update with status/message for Admin
+ */
+ exports.updateUserAccount = async function (userId, account_locked, accountDelete) {
+ 
+
+
+    let user = await sqlDAL.getUserById(userId);
+    // console.log(user);
+
+    // If we couldn't find the user
+    if (!user) {
+        return new Result(STATUS_CODES.failure, message = 'User not found.');
+    }
+}
+
+/**
+ * 
+ * @param {*} userId 
  * @param {*} currentPassword 
  * @param {*} newPassword 
  * @param {*} confirmNewPassword 
@@ -67,9 +87,10 @@ exports.updateUserPassword = async function (userId, currentPassword, newPasswor
  * 
  * @param {*} username 
  * @param {*} password 
+ * @param {*} account_locked
  * @returns The result of the login attempt
  */
-exports.login = async function (username, password) {
+exports.login = async function (username, password, account_locked) {
     // console.log(`Logging in with username ${username}`);
 
     // Get User by Username
@@ -82,10 +103,14 @@ exports.login = async function (username, password) {
     if (passwordsMatch) {
         // console.log('Successful login for ' + username);
         // console.log(user);
-
-        return new Result(STATUS_CODES.success, 'Valid Login.', user);
+        if(user.account_locked === "enabled"){
+          return new Result(STATUS_CODES.success, 'Valid Login.', user);  
+        } else {
+          return new Result(STATUS_CODES.failure, 'User disabled.');  
+        }
+        
     } else {
-        return new Result(STATUS_CODES.failure, 'Invalid Login.');
+        return new Result(STATUS_CODES.failure, 'Invalid Login');
     }
 }
 

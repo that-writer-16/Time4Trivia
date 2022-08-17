@@ -22,7 +22,7 @@ router.post('/users/:role', async function(req, res, next){
 
 })
 
-router.get('/delete/:userId', async function (req, res, next) {
+router.post('/delete/:userId', async function (req, res, next) {
   let userId = req.params.userId;
 
   await userController.deleteUserById(userId);

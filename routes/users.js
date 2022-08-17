@@ -36,6 +36,9 @@ router.post('/login', async function (req, res, next) {
   if (result?.status == STATUS_CODES.success) {
     req.session.user = { userId: result.data.userId, username: result.data.username, isAdmin: result.data.roles.includes('admin') };
     res.redirect('/');
+  }
+  else if(result?.status == STATUS_CODES.failure && result?.message === 'User disabled.'){
+    res.render('login', { title: 'Time 4 Trivia', error: 'User Disabled. Contact adminstrator.' })
   } else {
     res.render('login', { title: 'Time 4 Trivia', error: 'Invalid Login. Please try again.' })
   }
@@ -69,5 +72,7 @@ router.post('/profile', async function (req, res, next) {
     }
   }
 });
+
+
 
 module.exports = router;
