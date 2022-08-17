@@ -115,7 +115,7 @@ exports.getUserById = async function (userId) {
             let u = userResults[key];
 
             let sql = `select UserId, Role from UserRoles ur join Roles r on ur.roleid = r.roleid where ur.UserId = ${u.UserId}`;
-            console.log(sql);
+            // console.log(sql);
             const [roleResults, ] = await con.query(sql);
 
             let roles = [];
@@ -172,7 +172,7 @@ exports.getUserByUsername = async function (username) {
 
     try {
         let sql = `select * from Users where Username = '${username}'`;
-        console.log(sql);
+        // console.log(sql);
         
         const [userResults, ] = await con.query(sql);
 
@@ -180,7 +180,7 @@ exports.getUserByUsername = async function (username) {
             let u = userResults[key];
 
             let sql = `select UserId, Role from UserRoles ur join Roles r on ur.roleid = r.roleid where ur.UserId = ${u.UserId}`;
-            console.log(sql);
+            // console.log(sql);
             const [roleResults, ] = await con.query(sql);
 
             let roles = [];
@@ -298,7 +298,7 @@ exports.getAllQuestions = async function () {
         const [questionResults, ] = await con.query(sql);
 
         for(key in questionResults){
-            let q = user[key];
+            let q = questions[key];
             let sql = `select Question, CorrectAnswer, IncorrectAnswer0, IncorrectAnswer1, IncorrectAnswer2, ApprovalStatus from Questions;`;
             const [questionResults, ] = await con.query(sql);
 
@@ -319,7 +319,8 @@ exports.getApprovedQuestions = async function () {
     try{
         let sql = `select * from Questions where ApprovalStatus = 1;`;
         const [questionResults, ] = await con.query(sql);
-        console.log(questionResults);
+        // console.log('questionResults');
+        // console.log(questionResults);
         for(key in questionResults){
             let q = questionResults[key];
             questions.push(new Question(q.Question, q.CorrectAnswer, q.IncorrectAnswer0, q.IncorrectAnswer1, q.IncorrectAnswer2))

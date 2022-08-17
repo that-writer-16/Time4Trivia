@@ -11,7 +11,8 @@ exports.getAllQuestions = async function () {
 
 exports.getApprovedQuestions = async function () {
     let results = await sqlDAL.getApprovedQuestions();
-    console.log(results);
+    // console.log('Question Controller:');
+    // console.log(results);
     return results;
 }
 
