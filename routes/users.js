@@ -4,6 +4,8 @@ const router = express.Router();
 const userController = require('../controllers/userController');
 const STATUS_CODES = require('../models/statusCodes').STATUS_CODES;
 
+
+var attemptedsignin = 0;
 router.get('/register', function (req, res, next) {
   res.render('register', { title: 'Time 4 Trivia', error: '' });
 });
@@ -39,8 +41,16 @@ router.post('/login', async function (req, res, next) {
   }
   else if(result?.status == STATUS_CODES.failure && result?.message === 'User disabled.'){
     res.render('login', { title: 'Time 4 Trivia', error: 'User Disabled. Contact adminstrator.' })
-  } else {
+  } 
+  else if(result?.status == STATUS_CODES.failure && attemptedsignin >= 3){
+    res.render('login', { title: 'Time 4 Trivia', error: 'User Locked. Contact adminstrator.' })
+    console.log('Login breach attempted.')
+  }
+  else {
     res.render('login', { title: 'Time 4 Trivia', error: 'Invalid Login. Please try again.' })
+    
+    attemptedsignin++;
+    console.log(attemptedsignin);
   }
 });
 
