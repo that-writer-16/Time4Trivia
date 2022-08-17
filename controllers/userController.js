@@ -32,22 +32,22 @@ exports.createUser = async function (username, email, password) {
 
 /**
  * 
- * @param {*} userId 
- * @param {*} accountStatus 
- * @param {*} accountDelete
+ * @param {*} username
  * @returns The result of the update with status/message for Admin
  */
- exports.updateUserAccount = async function (userId, account_locked, accountDelete) {
+ exports.lockUser = async function (username) {
  
 
 
-    let user = await sqlDAL.getUserById(userId);
+    let user = await sqlDAL.getUserByUsername(username);
     // console.log(user);
 
     // If we couldn't find the user
     if (!user) {
         return new Result(STATUS_CODES.failure, message = 'User not found.');
     }
+    let result = await sqlDAL.lockUser(username);
+    return result;
 }
 
 /**

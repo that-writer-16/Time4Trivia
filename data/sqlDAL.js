@@ -134,6 +134,8 @@ exports.getUserById = async function (userId) {
     return user;
 }
 
+
+
 exports.deleteUserById = async function (userId) {
     let result = new Result();
 
@@ -274,6 +276,33 @@ exports.updateUserPassword = async function (userId, hashedPassword) {
 
     try {
         let sql = `update Users set password = '${hashedPassword}' where userId = '${userId}'`;
+        const userResult = await con.query(sql);
+
+        // console.log(r);
+        result.status = STATUS_CODES.success;
+        result.message = 'Account updated';
+        return result;
+    } catch (err) {
+        console.log(err);
+
+        result.status = STATUS_CODES.failure;
+        result.message = err.message;
+        return result;
+    }
+}
+
+/**
+ * 
+ * @param {*} username
+ * @returns a result object with status/message
+ */
+ exports.lockUser = async function (username) {
+    let result = new Result();
+
+    const con = await mysql.createConnection(sqlConfig);
+
+    try {
+        let sql = `update Users set account_locked = 'disabled' where username = '${username}'`;
         const userResult = await con.query(sql);
 
         // console.log(r);

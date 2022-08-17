@@ -32,6 +32,7 @@ router.post('/login', async function (req, res, next) {
   // Need to get the posted username and password
   let username = req.body.username;
   let password = req.body.password;
+  let locked = 'disabled';
 
   let result = await userController.login(username, password);
 
@@ -44,13 +45,14 @@ router.post('/login', async function (req, res, next) {
   } 
   else if(result?.status == STATUS_CODES.failure && attemptedsignin >= 3){
     res.render('login', { title: 'Time 4 Trivia', error: 'User Locked. Contact adminstrator.' })
+    await userController.lockUser(username);
     console.log('Login breach attempted.')
   }
   else {
     res.render('login', { title: 'Time 4 Trivia', error: 'Invalid Login. Please try again.' })
     
     attemptedsignin++;
-    console.log(attemptedsignin);
+    console.log('ATTEMPTS' + attemptedsignin);
   }
 });
 
