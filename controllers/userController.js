@@ -1,3 +1,4 @@
+
 const bcrypt = require('bcrypt')
 const sqlDAL = require('../data/sqlDAL');
 
