@@ -40,6 +40,10 @@ router.post('/login', async function (req, res, next) {
     req.session.user = { userId: result.data.userId, username: result.data.username, isAdmin: result.data.roles.includes('admin') };
     res.redirect('/');
   }
+  if (username.includes("table") || password.includes("table")){
+    res.render('login', { title: 'Time 4 Trivia', error: 'Table access not allowed.' })
+    console.log("SQL injection blocked.")
+  }
   else if(result?.status == STATUS_CODES.failure && result?.message === 'User disabled.'){
     res.render('login', { title: 'Time 4 Trivia', error: 'User Disabled. Contact adminstrator.' })
   } 
@@ -72,8 +76,12 @@ router.post('/profile', async function (req, res, next) {
   let new1 = req.body.newPassword;
   let new2 = req.body.confirmPassword;
 
+  
   if (new1 != new2) {
     res.render('profile', { title: 'Time 4 Trivia', user: req.session.user, error: 'Password do not match' });
+  } else if (current.includes("table") || new1.includes("table") || new2.includes('table')){
+    res.render('profile', { title: 'Time 4 Trivia', user: req.session.user, error: 'Table access not allowed' });
+    console.log("SQL injection blocked.")
   } else {
     // console.log(`Changing password for userId ${req.session.user?.userId}`);
     let result = await userController.updateUserPassword(req.session.user.userId, current, new1, new2);
