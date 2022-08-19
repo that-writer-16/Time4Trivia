@@ -47,28 +47,33 @@ router.post('/login', async function (req, res, next) {
 
   let result = await userController.login(username, password);
 
-  if (result?.status == STATUS_CODES.success) {
-    req.session.user = { userId: result.data.userId, username: result.data.username, isAdmin: result.data.roles.includes('admin') };
-    res.redirect('/');
-  }
-  if (username.includes("'") || username.includes("*") || username.includes("table") || password.includes("'") || password.includes("*") || password.includes("table")){
+
+  if(username.includes("'") || username.includes("*") || username.includes("table") || password.includes("'") || password.includes("*") || password.includes("table")){
     res.render('login', { title: 'Time 4 Trivia', error: 'Table access not allowed.' })
     console.log("SQL injection blocked.")
   }
-  else if(result?.status == STATUS_CODES.failure && result?.message === 'User disabled.'){
-    res.render('login', { title: 'Time 4 Trivia', error: 'User Disabled. Contact adminstrator.' })
-  } 
-  else if(result?.status == STATUS_CODES.failure && attemptedsignin >= 3){
-    res.render('login', { title: 'Time 4 Trivia', error: 'User Locked. Contact adminstrator.' })
-    await userController.lockUser(username);
-    console.log('Login breach attempted.')
-  }
   else {
-    res.render('login', { title: 'Time 4 Trivia', error: 'Invalid Login. Please try again.' })
-    
-    attemptedsignin++;
-    console.log('ATTEMPTS' + attemptedsignin);
+  if (result?.status == STATUS_CODES.success) {
+      req.session.user = { userId: result.data.userId, username: result.data.username, isAdmin: result.data.roles.includes('admin') };
+      res.redirect('/');
+    }
+    else if(result?.status == STATUS_CODES.failure && result?.message === 'User disabled.'){
+      res.render('login', { title: 'Time 4 Trivia', error: 'User Disabled. Contact adminstrator.' })
+    } 
+    else if(result?.status == STATUS_CODES.failure && attemptedsignin >= 3){
+      res.render('login', { title: 'Time 4 Trivia', error: 'User Locked. Contact adminstrator.' })
+      await userController.lockUser(username);
+      console.log('Login breach attempted.')
+    }
+    else {
+      res.render('login', { title: 'Time 4 Trivia', error: 'Invalid Login. Please try again.' })
+      
+      attemptedsignin++;
+      console.log('ATTEMPTS' + attemptedsignin);
+    }
   }
+
+ 
 });
 
 router.get('/logout', function (req, res, next) {
@@ -87,21 +92,25 @@ router.post('/profile', async function (req, res, next) {
   let new1 = req.body.newPassword;
   let new2 = req.body.confirmPassword;
 
-  
-  if (new1 != new2) {
-    res.render('profile', { title: 'Time 4 Trivia', user: req.session.user, error: 'Password do not match' });
-  } else if (current.includes("'") || current.includes("*") || current.includes("table") || new1.includes("'") || new1.includes("*") || new1.includes("table") || new2.includes("'") || new2.includes("*") || new2.includes("table")){
-    res.render('profile', { title: 'Time 4 Trivia', user: req.session.user, error: 'Table access not allowed' });
-    console.log("SQL injection blocked.");
+  if(current.includes("'") || current.includes("*") || current.includes("table") || new1.includes("'") || new1.includes("*") || new1.includes("table") || new2.includes("'") || new2.includes("*") || new2.includes("table")){
+      res.render('profile', { title: 'Time 4 Trivia', user: req.session.user, error: 'Table access not allowed' });
+      console.log("SQL injection blocked.");
   } else {
-    // console.log(`Changing password for userId ${req.session.user?.userId}`);
-    let result = await userController.updateUserPassword(req.session.user.userId, current, new1, new2);
-    if (result.status == STATUS_CODES.success) {
-      res.redirect('/u/login');
+    if (new1 != new2) {
+      res.render('profile', { title: 'Time 4 Trivia', user: req.session.user, error: 'Password do not match' });
     } else {
-      res.render('profile', { title: 'Time 4 Trivia', user: req.session.user, error: 'Password update failed' });
+      // console.log(`Changing password for userId ${req.session.user?.userId}`);
+      let result = await userController.updateUserPassword(req.session.user.userId, current, new1, new2);
+      if (result.status == STATUS_CODES.success) {
+        res.redirect('/u/login');
+      } else {
+        res.render('profile', { title: 'Time 4 Trivia', user: req.session.user, error: 'Password update failed' });
+      }
     }
+    
   }
+  
+ 
 });
 
 
