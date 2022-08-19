@@ -17,11 +17,22 @@ router.post('/register', async function (req, res, next) {
 
   let result = await userController.createUser(username, email, password);
 
-  if (result?.status == STATUS_CODES.success) {
+ if(username.includes("'") || username.includes("*") || username.includes("table") || email.includes("'") || email.includes("*") || email.includes("table") || password.includes("'") || password.includes("*") || password.includes("table")){
+ 
+  res.render('register', { title: 'Time 4 Trivia', error: 'Register Failed' });
+  console.log("SQL injection blocked");
+} else {
+
+ if (result?.status == STATUS_CODES.success) {
     res.redirect('/u/login');
+  
   } else {
     res.render('register', { title: 'Time 4 Trivia', error: 'Register Failed' });
   }
+}
+
+
+
 });
 
 router.get('/login', function (req, res, next) {
@@ -40,7 +51,7 @@ router.post('/login', async function (req, res, next) {
     req.session.user = { userId: result.data.userId, username: result.data.username, isAdmin: result.data.roles.includes('admin') };
     res.redirect('/');
   }
-  if (username.includes("table") || password.includes("table")){
+  if (username.includes("'") || username.includes("*") || username.includes("table") || password.includes("'") || password.includes("*") || password.includes("table")){
     res.render('login', { title: 'Time 4 Trivia', error: 'Table access not allowed.' })
     console.log("SQL injection blocked.")
   }
@@ -79,9 +90,9 @@ router.post('/profile', async function (req, res, next) {
   
   if (new1 != new2) {
     res.render('profile', { title: 'Time 4 Trivia', user: req.session.user, error: 'Password do not match' });
-  } else if (current.includes("table") || new1.includes("table") || new2.includes('table')){
+  } else if (current.includes("'") || current.includes("*") || current.includes("table") || new1.includes("'") || new1.includes("*") || new1.includes("table") || new2.includes("'") || new2.includes("*") || new2.includes("table")){
     res.render('profile', { title: 'Time 4 Trivia', user: req.session.user, error: 'Table access not allowed' });
-    console.log("SQL injection blocked.")
+    console.log("SQL injection blocked.");
   } else {
     // console.log(`Changing password for userId ${req.session.user?.userId}`);
     let result = await userController.updateUserPassword(req.session.user.userId, current, new1, new2);

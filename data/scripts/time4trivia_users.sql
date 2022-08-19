@@ -40,7 +40,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'admin','$2b$10$8Zq3JH4WY6CRwQmitid6V.9oFlM/RKo3ATcXqGWdoXoW14SmAJ7d6','admin@test.com','enabled'),(2,'test','$2b$10$GlNz68MNngzHKC1Vc4FaDu2zRGnFqXvt3Q69ke1OAnJF9Ml1l/jBm','test@test.com','enabled'),(3,'phil','$2b$10$GlNz68MNngzHKC1Vc4FaDu2zRGnFqXvt3Q69ke1OAnJF9Ml1l/jBm','phil@gmail.com','disabled'),(6,'apple','$2b$10$E7W12vCZNL4xfYq4B9pWM.CkkUwJKT5y3aU2YAu8ZKgdEUzhfsj5K','apple@test.com','enabled'),(7,'miranda','$2b$10$MfGbbjM3wn.WoU9yyYr6yOX5PWxQY.5cJ5yGtt61/s2nDxe6ibgte','miranda@test.com','disabled');
+INSERT INTO `users` VALUES (1,'admin','$2b$10$0tkbvxD45Q/Jw7auGOXWZOMosxCEHzAWoQACDdDQNqNPyoSG2Aowe','admin@test.com','enabled'),(2,'test','$2b$10$asCviOeDb54ZL6dDRGWaluowtI9NNpsvLV4eBbrzXO0JMLU87yb1q','test@test.com','enabled'),(3,'phil','$2b$10$GlNz68MNngzHKC1Vc4FaDu2zRGnFqXvt3Q69ke1OAnJF9Ml1l/jBm','phil@gmail.com','enabled'),(6,'apple','$2b$10$E7W12vCZNL4xfYq4B9pWM.CkkUwJKT5y3aU2YAu8ZKgdEUzhfsj5K','apple@test.com','enabled'),(7,'miranda','$2b$10$MfGbbjM3wn.WoU9yyYr6yOX5PWxQY.5cJ5yGtt61/s2nDxe6ibgte','miranda@test.com','disabled');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-08-17 11:45:45
+-- Dump completed on 2022-08-17 23:16:08
