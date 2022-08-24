@@ -19,7 +19,7 @@ router.post('/register', async function (req, res, next) {
 
  if(username.includes("'") || username.includes("*") || username.includes("table") || email.includes("'") || email.includes("*") || email.includes("table") || password.includes("'") || password.includes("*") || password.includes("table")){
  
-  res.render('register', { title: 'Time 4 Trivia', error: 'Register Failed' });
+  res.render('register', { title: 'Time 4 Trivia', error: 'Forbidden' });
   console.log("SQL injection blocked");
 } else {
 
@@ -49,7 +49,7 @@ router.post('/login', async function (req, res, next) {
 
 
   if(username.includes("'") || username.includes("*") || username.includes("table") || password.includes("'") || password.includes("*") || password.includes("table")){
-    res.render('login', { title: 'Time 4 Trivia', error: 'Table access not allowed.' })
+    res.render('login', { title: 'Time 4 Trivia', error: 'Forbidden' })
     console.log("SQL injection blocked.")
   }
   else {
@@ -93,7 +93,7 @@ router.post('/profile', async function (req, res, next) {
   let new2 = req.body.confirmPassword;
 
   if(current.includes("'") || current.includes("*") || current.includes("table") || new1.includes("'") || new1.includes("*") || new1.includes("table") || new2.includes("'") || new2.includes("*") || new2.includes("table")){
-      res.render('profile', { title: 'Time 4 Trivia', user: req.session.user, error: 'Table access not allowed' });
+      res.render('profile', { title: 'Time 4 Trivia', user: req.session.user, error: 'Forbidden' });
       console.log("SQL injection blocked.");
   } else {
     if (new1 != new2) {
