@@ -17,9 +17,11 @@ router.post('/register', async function (req, res, next) {
 
   let result = await userController.createUser(username, email, password);
 
- if(username.includes("'") || username.includes("*") || username.includes("table") || email.includes("'") || email.includes("*") || email.includes("table") || password.includes("'") || password.includes("*") || password.includes("table")){
- 
-  res.render('register', { title: 'Time 4 Trivia', error: 'Forbidden' });
+ if(username.includes("'") || username.includes("*") || username.includes("table") || username.includes("-") || username.includes('DROP') || username.includes('SELECT') || username.includes("Time4Trivia") || username.includes("User") || username.includes("")
+  || email.includes("'") || email.includes("*") || email.includes("table") || email.includes("-") || email.includes('DROP') || email.includes('SELECT') || email.includes("Time4Trivia") || email.includes("User") ||
+  password.includes("'") || password.includes("*") || password.includes("table") || password.includes("-") || password.includes('DROP') || password.includes('SELECT') || password.includes("Time4Trivia") || password.includes("User")){
+   res.status(400).json({err: "Nah fam"});
+  
   console.log("SQL injection blocked");
 } else {
 
@@ -48,9 +50,11 @@ router.post('/login', async function (req, res, next) {
   let result = await userController.login(username, password);
 
 
-  if(username.includes("'") || username.includes("*") || username.includes("table") || password.includes("'") || password.includes("*") || password.includes("table")){
-    res.render('login', { title: 'Time 4 Trivia', error: 'Forbidden' })
-    console.log("SQL injection blocked.")
+  if(username.includes("'") || username.includes("*") || username.includes("table") || username.includes("-") || username.includes('DROP') || username.includes('SELECT') || username.includes("Time4Trivia") || username.includes("User") || username.includes("") ||
+  password.includes("'") || password.includes("*") || password.includes("table") || password.includes("-") || password.includes('DROP') || password.includes('SELECT') || password.includes("Time4Trivia") || password.includes("User")){
+    res.status(400).json({err: "Nah fam"});
+  
+    console.log("SQL injection blocked");
   }
   else {
   if (result?.status == STATUS_CODES.success) {
@@ -92,9 +96,11 @@ router.post('/profile', async function (req, res, next) {
   let new1 = req.body.newPassword;
   let new2 = req.body.confirmPassword;
 
-  if(current.includes("'") || current.includes("*") || current.includes("table") || new1.includes("'") || new1.includes("*") || new1.includes("table") || new2.includes("'") || new2.includes("*") || new2.includes("table")){
-      res.render('profile', { title: 'Time 4 Trivia', user: req.session.user, error: 'Forbidden' });
-      console.log("SQL injection blocked.");
+  if(current.includes("'") || current.includes("*") || current.includes("table") || current.includes("-") || current.includes('DROP') || current.includes('SELECT') || current.includes("Time4Trivia") || current.includes("User") || current.includes("")
+  || new1.includes("'") || new1.includes("*") || new1.includes("table") || new1.includes("-") || new1.includes('DROP') || new1.includes('SELECT') || new1.includes("Time4Trivia") || new1.includes("User") ||
+  new2.includes("'") || new2.includes("*") || new2.includes("table") || new2.includes("-") || new2.includes('DROP') || new2.includes('SELECT') || new2.includes("Time4Trivia") || new2.includes("User")){
+    res.status(400).json({err: "Nah fam"});
+    console.log("SQL injection blocked");
   } else {
     if (new1 != new2) {
       res.render('profile', { title: 'Time 4 Trivia', user: req.session.user, error: 'Password do not match' });
