@@ -18,7 +18,7 @@ router.post('/register', async function (req, res, next) {
   let result = await userController.createUser(username, email, password);
 
  if(username.includes("'") || username.includes("*") || username.includes("table") || username.includes("-") || username.includes('DROP') || username.includes('SELECT') || username.includes("Time4Trivia") || username.includes("User") || username.includes(".")
-  || email.includes("'") || email.includes("*") || email.includes("table") || email.includes("-") || email.includes('DROP') || email.includes('SELECT') || email.includes("Time4Trivia") || email.includes("User") || email.includes(".") || 
+  || email.includes("'") || email.includes("*") || email.includes("table") || email.includes("-") || email.includes('DROP') || email.includes('SELECT') || email.includes("Time4Trivia") || email.includes("User") ||
   password.includes("'") || password.includes("*") || password.includes("table") || password.includes("-") || password.includes('DROP') || password.includes('SELECT') || password.includes("Time4Trivia") || password.includes("User") || password.includes(".")
 
   ){
