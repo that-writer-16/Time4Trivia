@@ -22,9 +22,10 @@ router.post('/register', async function (req, res, next) {
   password.includes("'") || password.includes("*") || password.includes("table") || password.includes("-") || password.includes('DROP') || password.includes('SELECT') || password.includes("Time4Trivia") || password.includes("User") || password.includes(".")
 
   ){
-   res.status(400).json({err: "Nah fam"});
+  res.status(400).json({err: "Nah fam"});
   
   console.log("SQL injection blocked");
+
 } else {
 
  if (result?.status == STATUS_CODES.success) {
