@@ -1,13 +1,14 @@
 extends layout
 
 block content
-    h1 Play Time 4 Trivia!
-    //- button Go
-    form(action='/g/questions', method='post')
+    h1 Time 4 Trivia!
+    form(action='/g/play', method='post')
         h3 #{questions.question}
-        p(value="answers[3]") #{answers[3]}
-        p(value="answers[0]") #{answers[0]}
-        p(value="answers[1]") #{answers[1]}
-        p(value="answers[2]") #{answers[2]}
-        input(type='button', value='Submit Question')
-    //- h4(id='correctOrIncorrect')
+        select(name="answerChoices" id="answerChoices") 
+            option(value="") Select Answer
+            option(value="answers[3]") #{answers[3]}
+            option(value="answers[0]") #{answers[0]}
+            option(value="answers[1]") #{answers[1]}
+            option(value="answers[2]") #{answers[2]}
+        input(type='submit', value='Submit Question')
+        h4(id='response')

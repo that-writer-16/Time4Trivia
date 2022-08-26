@@ -7,8 +7,8 @@ const Question = require('../models/question').Question;
 const mysql = require('mysql2/promise');
 const sqlConfig = {
     host: 'localhost',
-    user: 'root',
-    password: 'appleBS1998!',
+    user: 'kia',
+    password: 'Pro@430',
     database: 'Time4Trivia',
     multipleStatements: true
 };
@@ -32,8 +32,8 @@ exports.getAllUsers = async function () {
         for(key in userResults){
             let u = userResults[key];
 
-            let sql = `select UserId, Role from UserRoles ur join Roles r on ur.roleid = r.roleid where ur.UserId = ${u.UserId}`;
-            console.log(sql);
+            let sql = `select UserId, Role from UserRoles ur join Roles r on ur.RoleId = r.RoleId where ur.UserId = ${u.UserId}`;
+            // console.log(sql);
             const [roleResults, ] = await con.query(sql);
 
             // console.log('getAllUsers: role results');
@@ -64,22 +64,16 @@ exports.getUsersByRole = async function (role) {
     const con = await mysql.createConnection(sqlConfig);
 
     try {
-        let sql = `select * from Users u join UserRoles ur on u.userid = ur.userId join Roles r on ur.roleId = r.roleId where r.role = '${role}'`;
+        let sql = `select * from Users u join UserRoles ur on u.UserId = ur.userId join Roles r on ur.RoleId = r.RoleId where r.Role = '${role}'`;
 
         const [userResults, ] = await con.query(sql);
-
-        // console.log('getAllUsers: user results');
-        // console.log(userResults);
 
         for(key in userResults){
             let u = userResults[key];
 
-            let sql = `select UserId, Role from UserRoles ur join Roles r on ur.roleid = r.roleid where ur.UserId = ${u.UserId}`;
-            console.log(sql);
+            let sql = `select UserId, Role from UserRoles ur join Roles r on ur.RoleId = r.RoleId where ur.UserId = ${u.UserId}`;
+            // console.log(sql);
             const [roleResults, ] = await con.query(sql);
-
-            // console.log('getAllUsers: role results');
-            // console.log(roleResults);
 
             let roles = [];
             for(key in roleResults){
@@ -114,7 +108,7 @@ exports.getUserById = async function (userId) {
         for(key in userResults){
             let u = userResults[key];
 
-            let sql = `select UserId, Role from UserRoles ur join Roles r on ur.roleid = r.roleid where ur.UserId = ${u.UserId}`;
+            let sql = `select UserId, Role from UserRoles ur join Roles r on ur.RoleId = r.RoleId where ur.UserId = ${u.UserId}`;
             // console.log(sql);
             const [roleResults, ] = await con.query(sql);
 
@@ -134,8 +128,6 @@ exports.getUserById = async function (userId) {
     return user;
 }
 
-
-
 exports.deleteUserById = async function (userId) {
     let result = new Result();
 
@@ -144,14 +136,12 @@ exports.deleteUserById = async function (userId) {
     try {
         let sql = `delete from UserRoles where UserId = ${userId}`;
         let result = await con.query(sql);
-        // console.log(result);
 
         sql = `delete from Users where UserId = ${userId}`;
         result = await con.query(sql);
-        // console.log(result);
 
         result.status = STATUS_CODES.success;
-        result.message = `User ${userId} delted!`;
+        result.message = `User ${userId} deleted!`;
     } catch (err) {
         console.log(err);
         result.status = STATUS_CODES.failure;
@@ -174,15 +164,13 @@ exports.getUserByUsername = async function (username) {
 
     try {
         let sql = `select * from Users where Username = '${username}'`;
-        // console.log(sql);
         
         const [userResults, ] = await con.query(sql);
 
         for(key in userResults){
             let u = userResults[key];
 
-            let sql = `select UserId, Role from UserRoles ur join Roles r on ur.roleid = r.roleid where ur.UserId = ${u.UserId}`;
-            // console.log(sql);
+            let sql = `select UserId, Role from UserRoles ur join Roles r on ur.RoleId = r.RoleId where ur.UserId = ${u.UserId}`;
             const [roleResults, ] = await con.query(sql);
 
             let roles = [];
@@ -211,7 +199,7 @@ exports.getRolesByUserId = async function (userId) {
     const con = await mysql.createConnection(sqlConfig);
 
     try {
-        let sql = `select UserId, Role from UserRoles ur join Roles r on ur.roleid = r.roleid where UserId = ${userId}`;
+        let sql = `select UserId, Role from UserRoles ur join Roles r on ur.RoleId = r.RoleId where UserId = ${userId}`;
 
         const [results, ] = await con.query(sql);
 
@@ -264,7 +252,6 @@ exports.createUser = async function (username, hashedPassword, email) {
 }
 
 /**
- * 
  * @param {*} userId 
  * @param {*} hashedPassword 
  * @returns a result object with status/message
@@ -275,10 +262,9 @@ exports.updateUserPassword = async function (userId, hashedPassword) {
     const con = await mysql.createConnection(sqlConfig);
 
     try {
-        let sql = `update Users set password = '${hashedPassword}' where userId = '${userId}'`;
+        let sql = `update Users set password = '${hashedPassword}' where UserId = '${userId}'`;
         const userResult = await con.query(sql);
 
-        // console.log(r);
         result.status = STATUS_CODES.success;
         result.message = 'Account updated';
         return result;
@@ -292,11 +278,10 @@ exports.updateUserPassword = async function (userId, hashedPassword) {
 }
 
 /**
- * 
  * @param {*} username
  * @returns a result object with status/message
  */
- exports.lockUser = async function (username) {
+exports.lockUser = async function (username) {
     let result = new Result();
 
     const con = await mysql.createConnection(sqlConfig);
@@ -305,7 +290,6 @@ exports.updateUserPassword = async function (userId, hashedPassword) {
         let sql = `update Users set account_locked = 'disabled' where username = '${username}'`;
         const userResult = await con.query(sql);
 
-        // console.log(r);
         result.status = STATUS_CODES.success;
         result.message = 'Account updated';
         return result;
@@ -348,8 +332,6 @@ exports.getApprovedQuestions = async function () {
     try{
         let sql = `select * from Questions where ApprovalStatus = 1;`;
         const [questionResults, ] = await con.query(sql);
-        // console.log('questionResults');
-        // console.log(questionResults);
         for(key in questionResults){
             let q = questionResults[key];
             questions.push(new Question(q.Question, q.CorrectAnswer, q.IncorrectAnswer0, q.IncorrectAnswer1, q.IncorrectAnswer2))
@@ -382,4 +364,88 @@ exports.addQuestion = async function (question, correctAnswer, incorrectAnswer0,
         con.end();
     }
     return result;
+}
+
+exports.disableAccount = async function (userId, username){
+    let result = new Result();
+
+    const con = await mysql.createConnection(sqlConfig);
+
+    try{
+        let sql = `update Users set account_locked = 'disabled' where UserId = '${userId}`;
+        const userResult = await con.query(sql);
+        result.message = `${username} has been disabled.`;
+        return result;
+        
+    }catch(err){
+        console.log(err);
+        result.status = STATUS_CODES.failure;
+        result.message = err.message;
+    }finally{
+        con.end();
+    }
+}
+
+exports.enableAccount = async function (userId, username){
+    let result = new Result();
+
+    const con = await mysql.createConnection(sqlConfig);
+
+    try{
+        let sql = `update Users set account_locked = 'enabled' where UserId = '${userId}`;
+        const userResult = await con.query(sql);
+        result.message = `${username} has been enabled.`;
+        return result;
+        
+    }catch(err){
+        console.log(err);
+        result.status = STATUS_CODES.failure;
+        result.message = err.message;
+    }finally{
+        con.end();
+    }
+}
+
+exports.demoteAccount = async function (userId){
+    let result = new Result();
+
+    const con = await mysql.createConnection(sqlConfig);
+
+    try{
+        let sql = `update UserRoles set  = 1 where UserId = '${userId}`;
+        const userResult = await con.query(sql);
+        result.message = `${username} has been demoted.`;
+        return result;
+        
+    }catch(err){
+        console.log(err);
+        result.status = STATUS_CODES.failure;
+        result.message = err.message;
+    }finally{
+        con.end();
+    }
+}
+
+exports.promoteAccount = async function (userId){
+    let result = new Result();
+
+    const con = await mysql.createConnection(sqlConfig);
+
+    try{
+        let sql = `update UserRoles set  = 1 where UserId = '${userId}`;
+        const userResult = await con.query(sql);
+        result.message = `${username} has been promoted.`;
+        return result;
+        
+    }catch(err){
+        console.log(err);
+        result.status = STATUS_CODES.failure;
+        result.message = err.message;
+    }finally{
+        con.end();
+    }
+}
+
+exports.getScores = async function (){
+    // TODO finish
 }

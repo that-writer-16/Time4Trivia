@@ -1,6 +1,9 @@
 body {
   padding: 50px;
   font: 14px 'Lucida Grande', Helvetica, Arial, sans-serif;
+  background-color: #000;
+  color: #fff;
+  align-self: center;
 }
 
 a {
@@ -14,13 +17,26 @@ label {
 }
 
 nav {
-  padding: 5px;
+  padding: 10px;
   margin: 0px;
+  background-color: #6320EE;
+  position: absolute;
+  top: 5px
 }
 
 nav a {
   margin-right: 5px;
   text-decoration: none;
+  padding: 5px;
+  font-size: 20px;
+  /* background-color: #F8F0FB; */
+  box-shadow: 0px 0px 21px 0px #000000;
+  color: #fff;
+}
+
+nav a:hover {
+  font-size: 25px;
+  box-shadow: 0px 0px 21px 11px #000000;
 }
 
 .error {
@@ -29,9 +45,14 @@ nav a {
 }
 
 .userBox {
-  border:solid 1px black;
-  border-radius: 5px;
+  border: outset 5px #fff;
   padding: 5px;
   width: 250px;
-  margin-top: 10px;
+  margin: 10px;
+  background-color: #8075ff;
+}
+
+#userField {
+  display: flex;
+  flex-direction: row;
 }

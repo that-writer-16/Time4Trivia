@@ -5,6 +5,7 @@ use Time4Trivia;
 drop table if exists UserRoles;
 drop table if exists Users;
 drop table if exists Roles;
+drop table if exists Questions;
 
 create table if not exists Users(
 	UserId int NOT NULL AUTO_INCREMENT,
@@ -42,3 +43,10 @@ create table if not exists Questions(
 	ApprovalStatus BIT(1) NOT NULL,
     PRIMARY KEY (QuestionId)
 );
+
+create table if not exists Scores(
+	TimeDate TIMESTAMP,
+	UserId int NOT NULL,
+	Score int NOT NULL,
+	FOREIGN key (UserId) REFERENCES Users(UserId),
+    PRIMARY KEY (TimeDate)

@@ -1,10 +1,16 @@
 extends layout
 
 block content
-  h1 Time 4 Trivia Leaderboard!
-  ol
+  h1 Time 4 Trivia LeaderBoard!
+  table
+    tr
+      th rank
+      th username 
+      th score 
+      th date
     each val in leaders
-      li
-        div
-          label= val.name + ' : '
-          span= val.score
+      tr 
+        td #{leaders.indexOf(val) + 1}
+        td #{val.name} 
+        td #{val.score}
+        td #{val.date}

@@ -17,7 +17,7 @@ exports.getApprovedQuestions = async function () {
 }
 
 exports.addQuestions = async function () {
-    let result = await sqlDAL.addQuestions();
+    let results = await sqlDAL.addQuestions();
 
     return results;
 }

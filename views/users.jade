@@ -1,21 +1,26 @@
 extends layout
 
 block content
+<<<<<<< Updated upstream
   form(action='')
+=======
+  form(action='/a/users', method='post')
+>>>>>>> Stashed changes
     h1 Users
-    each user in users 
-      div(class='userBox')
-        h3 Username: #{user.username}
-        p This user is currently: #{user.account_locked}
-          label Account Status: 
-            select(type="text" name="accountStatus", id='')
-              each val in ["enabled","disabled"]
-                  option=val
-          label Delete User: 
-          input(type='checkbox' name='accountDelete' checked=false)
-          
-          h3 Roles
-          ul
-            each role in user.roles 
-              li= role
-          input(type='submit')
+    div(id='userField')
+      each u in users 
+          div(class='userBox')
+            h3 Username: #{u.username}
+            p This user is currently: #{u.account_locked}
+              label Account Status: 
+                select(type="text" name="accountStatus", id='')
+                  each val in ["enabled","disabled"]
+                      option=val
+              label Delete User: 
+              input(type='checkbox' name='accountDelete' checked=false)
+              p Current User Role: #{u.roles}
+              label Account Status: 
+                select(type="text" name="accountRole", id='')
+                  each val in ["admin","user"]
+                      option=val
+              input(type='submit')

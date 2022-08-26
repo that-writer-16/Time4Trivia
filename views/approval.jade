@@ -1,3 +1,19 @@
 extends layout
 
 block content
+    table
+        tr
+            th Question
+            th Correct Answer
+            th Incorrect Answer 
+            th Incorrect Answer 
+            th Incorrect Answer 
+            th Approval
+        each q in questions 
+            tr 
+                td #{q.questions}
+                td #{q.correctAnswer}
+                td #{q.incorrectAnswer0}
+                td #{q.incorrectAnswer1}
+                td #{q.incorrectAnswer2}
+                td input(type='checkbox' name='approval')

@@ -1,23 +1,24 @@
-
 const bcrypt = require('bcrypt')
 const sqlDAL = require('../data/sqlDAL');
 
 const Result = require('../models/result').Result;
 const STATUS_CODES = require('../models/statusCodes').STATUS_CODES;
 
+
+exports.getAllUsers = async function() {
+    let users = await sqlDAL.getAllUsers();
+    return users;
+}
+
 /**
- * 
  * @returns an array of user models
  */
 exports.getUsers = async function (role = 'user') {
     let results = await sqlDAL.getUsersByRole(role);
-    // console.log('getUsers');
-    // console.log(results);
     return results;
 }
 
 /**
- * 
  * @param {*} username 
  * @param {*} email 
  * @param {*} password 
@@ -32,13 +33,11 @@ exports.createUser = async function (username, email, password) {
 }
 
 /**
- * 
  * @param {*} username
  * @returns The result of the update with status/message for Admin
  */
- exports.lockUser = async function (username) {
- 
-
+    exports.lockUser = async function (username) {
+        
 
     let user = await sqlDAL.getUserByUsername(username);
     // console.log(user);
@@ -52,7 +51,6 @@ exports.createUser = async function (username, email, password) {
 }
 
 /**
- * 
  * @param {*} userId 
  * @param {*} currentPassword 
  * @param {*} newPassword 
@@ -85,7 +83,6 @@ exports.updateUserPassword = async function (userId, currentPassword, newPasswor
 }
 
 /**
- * 
  * @param {*} username 
  * @param {*} password 
  * @param {*} account_locked
@@ -105,9 +102,9 @@ exports.login = async function (username, password, account_locked) {
         // console.log('Successful login for ' + username);
         // console.log(user);
         if(user.account_locked === "enabled"){
-          return new Result(STATUS_CODES.success, 'Valid Login.', user);  
+            return new Result(STATUS_CODES.success, 'Valid Login.', user);  
         } else {
-          return new Result(STATUS_CODES.failure, 'User disabled.');  
+            return new Result(STATUS_CODES.failure, 'User disabled.');  
         }
         
     } else {
@@ -116,7 +113,6 @@ exports.login = async function (username, password, account_locked) {
 }
 
 /**
- * 
  * @param {*} userId 
  * @returns the matching user model or null
  */
@@ -125,10 +121,25 @@ exports.getUserById = function (userId) {
 }
 
 /**
- * 
  * @param {*} userId 
  * @returns deletes the user matching the userId
  */
 exports.deleteUserById = function (userId) {
     return sqlDAL.deleteUserById(userId);
+}
+
+exports.disableAccount = function (userId, username){
+    return sqlDAL.disableAccount(userId, username);
+}
+
+exports.enableAccount = function (userId, username){
+    return sqlDAL.enableAccount(userId, username);
+}
+
+exports.demoteAccount = function (userId, username){
+    return sqlDAL.demoteAccount(userId, username);
+}
+
+exports.promoteAccount = function (userId, username){
+    return sqlDAL.promoteAccount(userId, username);
 }

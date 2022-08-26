@@ -28,17 +28,21 @@ router.post('/play', async function(req, res, next){
     let q = 0;
     let answers = [currentQs[q].correctAnswer, currentQs[q].incorrectAnswer0,currentQs[q].incorrectAnswer1,currentQs[q].incorrectAnswer2]
     shuffle(answers);
-    // console.log('currentQs');
-    // console.log(currentQs);
     res.render('questions', {user: req.session.user, questions: questions[q], answers: answers});
     q++;
+    // let answerChoices = getElementByName('answerChoices');
+    // calculateAnswer(answerChoices.options[selectedIndex], currentQs[q].correctAnswer)
   }
 });
 function calculateAnswer(clickedAnswer, correctAnswer){
+  let response = getElementById('response');
   console.log('Answer Calculated.')
   let score = 0;
   if(clickedAnswer == correctAnswer){
     score++;
+    response.innerHtml('correct')
+  }else{
+    response.innerHtml('incorrect')
   }
 
 }
@@ -59,20 +63,32 @@ function shuffle(array) {
 
   return array;
 }
-// router.post('/question', async function(req, res, next){
 
-// });
+router.get('/add', async function(req, res, next){
+  res.render('add', {user: req.session.user});
+});
 
 router.post('/add', async function(req, res, next) {
   // TODO: Implement Adding questions to DB
+  if (!req.session.user){
+    res.redirect('/')
+  }else{
+    questionController.addQuestions();
+  }
   
   res.render('add', {user: req.session.user});
 });
 
 router.get('/approval', async function(req, res, next) {
   // TODO: Implement question approval / denial
+  if (!req.session.user){
+    res.redirect('/')
+  }else{
+    let questions = questionController.getAllQuestions();
+      res.render('approval', {user: req.session.user, questions: questions});
+  }
   
-  res.render('approval', {user: req.session.user});
+
 });
 
 module.exports = router;
