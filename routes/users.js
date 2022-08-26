@@ -17,7 +17,6 @@ router.post('/register', async function (req, res, next) {
 
   let result = await userController.createUser(username, email, password);
 
-<<<<<<< Updated upstream
  if(username.includes("'") || username.includes("*") || username.includes("table") || username.includes("-") || username.includes('DROP') || username.includes('SELECT') || username.includes("Time4Trivia") || username.includes("User") || username.includes(".")
   || email.includes("'") || email.includes("*") || email.includes("table") || email.includes("-") || email.includes('DROP') || email.includes('SELECT') || email.includes("Time4Trivia") || email.includes("User") ||
   password.includes("'") || password.includes("*") || password.includes("table") || password.includes("-") || password.includes('DROP') || password.includes('SELECT') || password.includes("Time4Trivia") || password.includes("User") || password.includes(".")
@@ -25,11 +24,9 @@ router.post('/register', async function (req, res, next) {
   ){
   res.status(400).json({err: "Nah fam"});
   
-=======
   if(username.includes("'") || username.includes("*") || username.includes("table") || email.includes("'") || email.includes("*") || email.includes("table") || password.includes("'") || password.includes("*") || password.includes("table")){
 
   res.render('register', { title: 'Time 4 Trivia', error: 'Register Failed' });
->>>>>>> Stashed changes
   console.log("SQL injection blocked");
 
 } else {
@@ -56,18 +53,16 @@ router.post('/login', async function (req, res, next) {
 
   let result = await userController.login(username, password);
 
-<<<<<<< Updated upstream
-
   if(username.includes("'") || username.includes("*") || username.includes("table") || username.includes("-") || username.includes('DROP') || username.includes('SELECT') || username.includes("Time4Trivia") || username.includes("User") ||
   password.includes("'") || password.includes("*") || password.includes("table") || password.includes("-") || password.includes('DROP') || password.includes('SELECT') || password.includes("Time4Trivia") || password.includes("User")){
     res.status(400).json({err: "Nah fam"});
   
     console.log("SQL injection blocked");
-=======
+    
   if(username.includes("'") || username.includes("*") || username.includes("table") || password.includes("'") || password.includes("*") || password.includes("table")){
     res.render('login', { title: 'Time 4 Trivia', error: 'Table access not allowed.' })
     console.log("SQL injection blocked.")
->>>>>>> Stashed changes
+
   }
   else {
   if (result?.status == STATUS_CODES.success) {
