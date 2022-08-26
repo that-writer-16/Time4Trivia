@@ -17,9 +17,11 @@ router.post('/register', async function (req, res, next) {
 
   let result = await userController.createUser(username, email, password);
 
- if(username.includes("'") || username.includes("*") || username.includes("table") || username.includes("-") || username.includes('DROP') || username.includes('SELECT') || username.includes("Time4Trivia") || username.includes("User") || username.includes("")
-  || email.includes("'") || email.includes("*") || email.includes("table") || email.includes("-") || email.includes('DROP') || email.includes('SELECT') || email.includes("Time4Trivia") || email.includes("User") ||
-  password.includes("'") || password.includes("*") || password.includes("table") || password.includes("-") || password.includes('DROP') || password.includes('SELECT') || password.includes("Time4Trivia") || password.includes("User")){
+ if(username.includes("'") || username.includes("*") || username.includes("table") || username.includes("-") || username.includes('DROP') || username.includes('SELECT') || username.includes("Time4Trivia") || username.includes("User") || username.includes(".")
+  || email.includes("'") || email.includes("*") || email.includes("table") || email.includes("-") || email.includes('DROP') || email.includes('SELECT') || email.includes("Time4Trivia") || email.includes("User") || email.includes(".") || 
+  password.includes("'") || password.includes("*") || password.includes("table") || password.includes("-") || password.includes('DROP') || password.includes('SELECT') || password.includes("Time4Trivia") || password.includes("User") || password.includes(".")
+
+  ){
    res.status(400).json({err: "Nah fam"});
   
   console.log("SQL injection blocked");
@@ -27,6 +29,7 @@ router.post('/register', async function (req, res, next) {
 
  if (result?.status == STATUS_CODES.success) {
     res.redirect('/u/login');
+    
   
   } else {
     res.render('register', { title: 'Time 4 Trivia', error: 'Register Failed' });
@@ -50,7 +53,7 @@ router.post('/login', async function (req, res, next) {
   let result = await userController.login(username, password);
 
 
-  if(username.includes("'") || username.includes("*") || username.includes("table") || username.includes("-") || username.includes('DROP') || username.includes('SELECT') || username.includes("Time4Trivia") || username.includes("User") || username.includes("") ||
+  if(username.includes("'") || username.includes("*") || username.includes("table") || username.includes("-") || username.includes('DROP') || username.includes('SELECT') || username.includes("Time4Trivia") || username.includes("User") ||
   password.includes("'") || password.includes("*") || password.includes("table") || password.includes("-") || password.includes('DROP') || password.includes('SELECT') || password.includes("Time4Trivia") || password.includes("User")){
     res.status(400).json({err: "Nah fam"});
   
@@ -60,6 +63,7 @@ router.post('/login', async function (req, res, next) {
   if (result?.status == STATUS_CODES.success) {
       req.session.user = { userId: result.data.userId, username: result.data.username, isAdmin: result.data.roles.includes('admin') };
       res.redirect('/');
+      console.log(username + " just logged in")
     }
     else if(result?.status == STATUS_CODES.failure && result?.message === 'User disabled.'){
       res.render('login', { title: 'Time 4 Trivia', error: 'User Disabled. Contact adminstrator.' })
@@ -96,7 +100,7 @@ router.post('/profile', async function (req, res, next) {
   let new1 = req.body.newPassword;
   let new2 = req.body.confirmPassword;
 
-  if(current.includes("'") || current.includes("*") || current.includes("table") || current.includes("-") || current.includes('DROP') || current.includes('SELECT') || current.includes("Time4Trivia") || current.includes("User") || current.includes("")
+  if(current.includes("'") || current.includes("*") || current.includes("table") || current.includes("-") || current.includes('DROP') || current.includes('SELECT') || current.includes("Time4Trivia") || current.includes("User")
   || new1.includes("'") || new1.includes("*") || new1.includes("table") || new1.includes("-") || new1.includes('DROP') || new1.includes('SELECT') || new1.includes("Time4Trivia") || new1.includes("User") ||
   new2.includes("'") || new2.includes("*") || new2.includes("table") || new2.includes("-") || new2.includes('DROP') || new2.includes('SELECT') || new2.includes("Time4Trivia") || new2.includes("User")){
     res.status(400).json({err: "Nah fam"});
